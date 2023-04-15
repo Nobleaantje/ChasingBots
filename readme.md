@@ -1,5 +1,3 @@
-# Bot Template: Rambo The Rando
+# Bot ChasingBots
 
-This bot acts as an template for future bot submissions for the Nobleo Colour Battle Coding Challenge.
-
-Chooses a random location on the grid and charges towards it. Not to be underestimated.
+This bot will find the enemy with the most points and with tiles it is able to take, and chase them
