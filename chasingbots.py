@@ -21,7 +21,7 @@ class ChasingBots:
             self.init = True
             
         target_id = self.find_best_enemy(grid)
-        target_coord = self.find_enemy_coord(enemies, target_id)
+        target_coord = self.find_enemy_coord(enemies, target_id,grid)
         
         return self.move_to_target(target_coord)
         
@@ -46,10 +46,34 @@ class ChasingBots:
             n_tiles[idx] = np.count_nonzero(grid == x)
         return takeable_ids[np.argmax(n_tiles)]
         
-    def find_enemy_coord(self,enemies,target_id):
+    def find_enemy_coord(self,enemies,target_id,grid):
+    
         for x in enemies:
-            if x['id'] == target_id:
-                return x['position']
+                if x['id'] == target_id:
+                    enemy_coords = x['position']
+                    break
+    
+        tile_coords = np.where(grid == target_id)
+        if tile_coords[0].size == 0:
+            return enemy_coords
+            
+        best_dist = 9999
+        best_coords = [0,0]
+        
+        for idx, y in enumerate(tile_coords[0]):
+            x =  tile_coords[1][idx]
+            dist_to_self   = abs(self.position[0] - x) + abs(self.position[1] - y)
+            dist_to_enemy = abs(enemy_coords[0] - x) + abs(enemy_coords[1] - y)
+            
+            tot_dist = 2*dist_to_self + dist_to_enemy
+            
+            if tot_dist < best_dist:
+                best_dist = tot_dist
+                best_coords = [x, y]
+            
+        print('Chasing bot id: ' + str(target_id))
+        print('Target tile: [' + str(best_coords[0]) + ', ' + str(best_coords[1]) + ']')
+        return best_coords
         
         
     def move_to_target(self, target):
