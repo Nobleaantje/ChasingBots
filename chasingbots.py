@@ -22,7 +22,6 @@ class ChasingBots:
             
         target_id = self.find_best_enemy(grid)
         target_coord = self.find_enemy_coord(enemies, target_id)
-        print(target_id)
         
         return self.move_to_target(target_coord)
         
