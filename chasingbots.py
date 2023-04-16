@@ -22,6 +22,7 @@ class ChasingBots:
             
         target_id = self.find_best_enemy(grid)
         target_coord = self.find_enemy_coord(enemies, target_id)
+        print(target_id)
         
         return self.move_to_target(target_coord)
         
@@ -52,13 +53,18 @@ class ChasingBots:
                 return x['position']
         
         
-    def move_to_target(self,target_coord):
+    def move_to_target(self, target):
         # Move in direction of target
-        if target_coord[0] > self.position[0]:
-            return Move.RIGHT
-        elif target_coord[0] < self.position[0]:
-            return Move.LEFT
-        elif target_coord[1] > self.position[1]:
-            return Move.UP
+        dx = abs(target[0] - self.position[0])
+        dy = abs(target[1] - self.position[1])
+        
+        if dx > dy:
+            if target[0] > self.position[0]:
+                return Move.RIGHT
+            else:
+                return Move.LEFT
         else:
-            return Move.DOWN
+            if target[1] > self.position[1]:
+                return Move.UP
+            else:
+                return Move.DOWN
